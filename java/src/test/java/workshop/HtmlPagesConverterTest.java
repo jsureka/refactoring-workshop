@@ -41,7 +41,6 @@ public class HtmlPagesConverterTest {
         protected void setRead(String text) {
             this.text = text;
         }
-        @Override
         protected String read() throws IOException {
             return text;
         }

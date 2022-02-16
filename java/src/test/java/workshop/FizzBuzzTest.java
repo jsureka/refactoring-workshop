@@ -8,9 +8,9 @@ import static workshop.FizzBuzz.say;
 public class FizzBuzzTest {
     @Test
     public void returnsANumber() {
-        assertEquals("1", say(1));
-        assertEquals("4", say(4));
-        assertEquals("7", say(7));
+        assertEquals("", say(1));
+        assertEquals("", say(4));
+        assertEquals("", say(7));
     }
 
     @Test

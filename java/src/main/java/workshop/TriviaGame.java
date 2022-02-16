@@ -2,9 +2,10 @@ package workshop;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class TriviaGame {
-    ArrayList players = new ArrayList();
+    List<Player> players = new ArrayList<>();
     int[] places = new int[6];
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
@@ -30,14 +31,9 @@ public class TriviaGame {
         return "Rock Question " + index;
     }
 
-    public boolean isPlayable() {
-        return (howManyPlayers() >= 2);
-    }
-
     public boolean add(String playerName) {
 
-
-        players.add(playerName);
+        players.add(new Player(playerName));
         places[howManyPlayers()] = 0;
         purses[howManyPlayers()] = 0;
         inPenaltyBox[howManyPlayers()] = false;
@@ -51,26 +47,30 @@ public class TriviaGame {
         return players.size();
     }
 
+    public  void movePlayer(int roll){
+        places[currentPlayer] += roll;
+        if (places[currentPlayer] > 11) places[currentPlayer] -= 12;
+
+        announce(players.get(currentPlayer)
+                + "'s new location is "
+                + places[currentPlayer]);
+        announce("The category is " + currentCategory());
+    }
+
+
     public void roll(int roll) {
+
         announce(players.get(currentPlayer) + " is the current player");
         announce("They have rolled a " + roll);
 
         if (inPenaltyBox[currentPlayer]) {
             if (roll % 2 != 0) {
-                isGettingOutOfPenaltyBox = true;
 
                 announce(players.get(currentPlayer) + " is getting out of the penalty box");
-                places[currentPlayer] = places[currentPlayer] + roll;
-                if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-
-                announce(players.get(currentPlayer)
-                        + "'s new location is "
-                        + places[currentPlayer]);
-                announce("The category is " + currentCategory());
+               movePlayer(roll);
                 askQuestion();
             } else {
                 announce(players.get(currentPlayer) + " is not getting out of the penalty box");
-                isGettingOutOfPenaltyBox = false;
             }
 
         } else {
@@ -86,18 +86,27 @@ public class TriviaGame {
         }
 
     }
-
+    
     private void askQuestion() {
-        if (currentCategory() == "Pop")
-            announce(popQuestions.removeFirst());
-        if (currentCategory() == "Science")
-            announce(scienceQuestions.removeFirst());
-        if (currentCategory() == "Sports")
-            announce(sportsQuestions.removeFirst());
-        if (currentCategory() == "Rock")
-            announce(rockQuestions.removeFirst());
+       announce(nextQuestion());
     }
 
+    private String nextQuestion(){
+
+        switch (currentCategory()) {
+
+            case "Pop":
+                return (String) popQuestions.removeFirst();
+            case "Science":
+                return (String) scienceQuestions.removeFirst();
+            case "Sports":
+                return (String) sportsQuestions.removeFirst();
+            case "Rock":
+                return (String) rockQuestions.removeFirst();
+            default:
+                throw new IllegalStateException("Unexpected value: " + currentCategory());
+        }
+    }
 
     private String currentCategory() {
         if (places[currentPlayer] == 0) return "Pop";
