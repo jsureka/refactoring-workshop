@@ -10,6 +10,7 @@ public class NewLineMatcher implements CharacterMatcher{
 
     @Override
     public void addNewCharacter(List<String> convertedLine, String characterToConvert) {
-        convertedLine.add("\n");
+        convertedLine.add("<br />");
+        convertedLine.clear();
     }
 }

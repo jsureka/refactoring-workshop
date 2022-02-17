@@ -25,24 +25,24 @@ public class PlaintextToHtmlConverter {
     private String basicHtmlEncode(String source) {
         List<String> result = new ArrayList<>();
         List<String> convertedLine = new ArrayList<>();
-        List<CharacterMatcher> characterMatchers = new ArrayList<CharacterMatcher>(Arrays.asList( new GreaterThanMatcher(), new LessThanMatcher(), new AndMatcher(), new defaultMatcher()));
+        ToOutput toOutput = new ToOutput();
+        List<CharacterMatcher> characterMatchers = new ArrayList<CharacterMatcher>(Arrays.asList(new NewLineMatcher(), new GreaterThanMatcher(), new LessThanMatcher(), new AndMatcher(), new defaultMatcher()));
         for (char characterToConvert : source.toCharArray()) {
             for (CharacterMatcher matcher: characterMatchers
                  ) {
                 if(matcher.matches(characterToConvert)){
-                     matcher.addNewCharacter(convertedLine, String.valueOf(characterToConvert));
-                    break;
+                     matcher.addNewCharacter(convertedLine, Character.toString(characterToConvert));
                 }
-                else{
-                    ToOutput.addANewLine(result, convertedLine);
-                    convertedLine.clear();
-                    break;
-                }
+
             }
         }
-        ToOutput.addANewLine(result,convertedLine);
+//            ToOutput.addANewLine(result, convertedLine);
+//            convertedLine.clear();
+//
+
+        toOutput.addANewLine(result,convertedLine);
         convertedLine.clear();
-        return ToOutput.addBreakLineToOutput(result);
+        return toOutput.addBreakLineToOutput(result);
     }
 
 }
