@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PlaintextToHtmlConverter {
@@ -24,25 +25,23 @@ public class PlaintextToHtmlConverter {
     private String basicHtmlEncode(String source) {
         List<String> result = new ArrayList<>();
         List<String> convertedLine = new ArrayList<>();
-        CharacterMatcher matcher = new CharacterMatcher() {
-            @Override
-            public boolean matches(char newCharacter) {
-                return false;
-            }
-
-            @Override
-            public String addNewCharacter() {
-                return null;
-            }
-        };
+        List<CharacterMatcher> characterMatchers = new ArrayList<CharacterMatcher>(Arrays.asList( new GreaterThanMatcher(), new LessThanMatcher(), new AndMatcher(), new defaultMatcher()));
         for (char characterToConvert : source.toCharArray()) {
-            if(matcher.matches(characterToConvert)){
-                matcher.addNewCharacter();
+            for (CharacterMatcher matcher: characterMatchers
+                 ) {
+                if(matcher.matches(characterToConvert)){
+                     matcher.addNewCharacter(convertedLine, String.valueOf(characterToConvert));
+                    break;
+                }
+                else{
+                    ToOutput.addANewLine(result, convertedLine);
+                    convertedLine.clear();
+                    break;
+                }
             }
-            else
-               convertedLine = ToOutput.pushACharacterToTheOutput(convertedLine, String.valueOf(characterToConvert));
         }
-        result = ToOutput.addANewLine(result,convertedLine);
+        ToOutput.addANewLine(result,convertedLine);
+        convertedLine.clear();
         return ToOutput.addBreakLineToOutput(result);
     }
 

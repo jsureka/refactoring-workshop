@@ -3,34 +3,36 @@ package workshop;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static workshop.FizzBuzz.say;
+import workshop.FizzBuzz;
 
 public class FizzBuzzTest {
+    private FizzBuzz fizzbuzz = new FizzBuzz();
+
     @Test
     public void returnsANumber() {
-        assertEquals("", say(1));
-        assertEquals("", say(4));
-        assertEquals("", say(7));
+        assertEquals("", fizzbuzz.say(1));
+        assertEquals("", fizzbuzz.say(4));
+        assertEquals("",fizzbuzz.say(7));
     }
 
     @Test
     public void factorOf3() {
-        assertEquals("Fizz", say(3));
-        assertEquals("Fizz", say(6));
-        assertEquals("Fizz", say(9));
+        assertEquals("Fizz", fizzbuzz.say(3));
+        assertEquals("Fizz", fizzbuzz.say(6));
+        assertEquals("Fizz", fizzbuzz.say(9));
     }
 
     @Test
     public void factorOf5() {
-        assertEquals("Buzz", say(5));
-        assertEquals("Buzz", say(10));
-        assertEquals("Buzz", say(20));
+        assertEquals("Buzz", fizzbuzz.say(5));
+        assertEquals("Buzz", fizzbuzz.say(10));
+        assertEquals("Buzz", fizzbuzz.say(20));
     }
 
     @Test
     public void factorOf3And5() {
-        assertEquals("FizzBuzz", say(15));
-        assertEquals("FizzBuzz", say(30));
-        assertEquals("FizzBuzz", say(60));
+        assertEquals("FizzBuzz", fizzbuzz.say(15));
+        assertEquals("FizzBuzz", fizzbuzz.say(30));
+        assertEquals("FizzBuzz", fizzbuzz.say(60));
     }
 }

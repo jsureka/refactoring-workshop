@@ -2,14 +2,15 @@ package workshop;
 
 import java.util.List;
 
-public class NewLineMatcher implements CharacterMatcher{
+public class defaultMatcher implements CharacterMatcher{
+
     @Override
     public boolean matches(char newCharacter) {
-        return newCharacter == '\n';
+        return (newCharacter != '<' && newCharacter != '>' && newCharacter != '&' && newCharacter != '\n');
     }
 
     @Override
     public void addNewCharacter(List<String> convertedLine, String characterToConvert) {
-        convertedLine.add("\n");
+        convertedLine.add(characterToConvert);
     }
 }

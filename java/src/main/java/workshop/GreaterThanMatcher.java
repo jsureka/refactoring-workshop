@@ -1,5 +1,7 @@
 package workshop;
 
+import java.util.List;
+
 public class GreaterThanMatcher implements CharacterMatcher{
 
     @Override
@@ -8,7 +10,7 @@ public class GreaterThanMatcher implements CharacterMatcher{
     }
 
     @Override
-    public String addNewCharacter() {
-        return "&gt;";
+    public void addNewCharacter(List<String> convertedLine, String characterToConvert) {
+        convertedLine.add("&gt;");
     }
 }

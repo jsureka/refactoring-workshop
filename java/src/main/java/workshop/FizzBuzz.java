@@ -1,5 +1,7 @@
 package workshop;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,22 +11,21 @@ import java.util.List;
  * For numbers which are factors of both three and five print FizzBuzz instead of the number
  */
 public class FizzBuzz {
-    private static List<PatternMatcher> patternMatchers;
-    private static ResponseGenerator nullObjectPattern = new ResponseGenerator() {
+    private  List<PatternMatcher> patternMatchers = new ArrayList<PatternMatcher>(Arrays.asList(new FizzPatternMatcher(), new BuzzPatternMatcher(), new FizzbuzzPatternMatcher()));
+    private  ResponseGenerator nullObjectPattern= new ResponseGenerator() {
         @Override
         public String generateResponse() {
-            return null;
+            return "";
         }
     };
-    public FizzBuzz(List<PatternMatcher> patternMatchers, ResponseGenerator nullObjectPattern){
+    public FizzBuzz(){
         super();
-        this.patternMatchers = patternMatchers;
-        this.nullObjectPattern = nullObjectPattern;
     }
-    public static String say(int number) {
+    public  String say(int number) {
         String strReturn = nullObjectPattern.generateResponse();
         for (PatternMatcher patternMatcher : patternMatchers) {
             if (patternMatcher.matches(number)) strReturn = patternMatcher.generateResponse();
+
         }
 
         return strReturn;
